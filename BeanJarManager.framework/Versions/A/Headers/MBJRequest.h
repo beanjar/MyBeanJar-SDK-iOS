@@ -83,7 +83,7 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
  *  @param limit      The number of winners to return
  *  @param block      The block to execute. The block should have the following argument signature:(NSArray *winners, NSError *error).  If winners == nil check error.code and error.localizedDescription
  */
-- (void)winnersInBackgroundWithLimit:(int)limit block:(void(^)(NSArray *winners, NSError *error))block;
+- (void)winnersInBackgroundWithLimit:(int)limit block:(void(^)(NSArray *winners, NSNumber *totalBeans, NSError *error))block;
 
 /**
  *  Request an NSArray of MBJSponsor objects. An MBJSponsor is one of the sponsors within the MyBeanJar service.
@@ -122,7 +122,7 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
  *  @param appKey     A valide MBJApp key. This key is unique to your App
  *  @param block      The block to execute. The block should have the following argument signature:(MBJAward *award, NSError *error).  If award == nil check error.code and error.localizedDescription
  */
-- (void)awardInBackgroundWithUsername:(NSString *)username appKey:(NSString *)appKey block:(void(^)(MBJAward *award, NSError *error))block;
+- (void)awardInBackgroundWithUsername:(NSString *)username password:(NSString *)password appKey:(NSString *)appKey block:(void(^)(MBJAward *award, NSError *error))block;
 
 /**
  *  Request an NSArray of MBJSponsorLocations objects for a sponsor.
