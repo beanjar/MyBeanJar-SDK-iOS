@@ -4,6 +4,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "MBJApp.h"
 #import "MBJWinner.h"
 #import "MBJSponsor.h"
@@ -11,6 +12,8 @@
 #import "MBJCategory.h"
 #import "MBJAward.h"
 #import "MBJSponsorLocation.h"
+#import "MBJAwardViewController.h"
+#import "MBJUserInfo.h"
 
 // Errors
 extern NSInteger const kMBJErrorNone;                           // No error - success
@@ -66,6 +69,18 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
 - (void)sendPasswordInBackgroundWithUsername:(NSString *)username block:(void(^)(BOOL succeeded, NSError *error))block;
 
 /**
+ *  Request that a MyBeanJar user have their password changed to a password of their choice.
+ *
+ *  @param username   A valid MyBeanJar username
+ *  @param password   A valid MyBeanJar password
+ *  @param newPassword   A new password of user's choice
+ *  @param confirmNewPassword   Must be equal to the newPassword param
+ *  @param block      The block to execute. The block should have the following argument signature:(BOOL succeeded, NSError *error).  If succeeded == NO check error.code and error.localizedDescription
+ */
+
+- (void)changePasswordInBackgroundWithUsername:(NSString *)username password:(NSString *)password newPassword:(NSString *)newPassword confirmNewPassword:(NSString *)confirmNewPassword block:(void(^)(BOOL succeeded, NSError *error))block;
+
+/**
  *  Request an NSArray of MBJApp objects. An MBJApp is an iOS applications that supports the MyBeanJar service.
  *
  *  @param username   A valid MyBeanJar username
@@ -73,7 +88,19 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
  *  @param limit      The number of apps to return
  *  @param block      The block to execute. The block should have the following argument signature:(NSArray *apps, NSError *error).  If apps == nil check error.code and error.localizedDescription
  */
+
 - (void)appsInBackgroundWithUsername:(NSString *)username password:(NSString *)password limit:(int)limit block:(void(^)(NSArray *apps, NSError *error))block;
+
+/**
+ *  Request an NSDictionary of Metadata for an app.
+ *
+ *  @param username   A valid MyBeanJar username
+ *  @param password   A valid MyBeanJar password (minimum of 8 characters, no special symbols)
+ *  @param appKey     A valid MBJApp key for the app you want metadata on.
+ *  @param block      The block to execute. The block should have the following argument signature:(NSDictionary *response, NSError *error).  If response == nil check error.code and error.localizedDescription
+ */
+- (void)appDetailsInBackgroundWithUsername:(NSString *)username password:(NSString *)password appKey:(NSString *)appKey block:(void(^)(NSDictionary *response, NSError *error))block;
+
 
 /**
  *  Request an NSArray of MBJWinner objects. An MBJWinner is one of the latest winners within an applications that support the MyBeanJar service.
@@ -110,10 +137,27 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
  *
  *  @param username   A valid MyBeanJar username
  *  @param password   A valid MyBeanJar password (minimum of 8 characters, no special symbols)
- *  @param limit      The number of winners to return
  *  @param block      The block to execute. The block should have the following argument signature:(NSArray *categories, NSError *error).  If categories == nil check error.code and error.localizedDescription
  */
 - (void)categoriesInBackgroundWithUsername:(NSString *)username password:(NSString *)password block:(void(^)(NSArray *categories, NSError *error))block;
+
+/**
+ *  Request an MBJUser object. An MBJUser contains the data used in the Change User Info screen *
+ *  @param username   A valid MyBeanJar username
+ *  @param password   A valid MyBeanJar password (minimum of 8 characters, no special symbols)
+ *  @param block      The block to execute. The block should have the following argument signature:(MBJUserInfo *userInfo, NSError *error).  If userInfo == nil check error.code and error.localizedDescription
+ */
+- (void)getUserInfoInBackgroundWithUsername:(NSString *)username password:(NSString *)password block:(void(^)(MBJUserInfo *userInfo, NSError *error))block;
+
+/**
+ *  Set a BeanJar user's info.
+ *
+ *  @param username   A valid MyBeanJar username
+ *  @param password   A valid MyBeanJar password (minimum of 8 characters, no special symbols)
+ *  @param block      The block to execute. The block should have the following argument signature:(BOOL succeeded, NSError *error).  If succeeded == NO check error.code and error.localizedDescription
+ */
+- (void)setUserInfoInBackgroundWithUsername:(NSString *)username password:(NSString *)password phone:(NSString *)phone email:(NSString *)email zipcode:(NSString *)zipcode gender:(NSString *)gender birthday:(NSString *)birthday categories:(NSArray *)categories block:(void(^)(BOOL succeeded, NSError *error))block;
+
 
 /**
  *  Request an MBJAward for a user.
