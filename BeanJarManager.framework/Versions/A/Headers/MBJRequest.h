@@ -12,7 +12,6 @@
 #import "MBJCategory.h"
 #import "MBJAward.h"
 #import "MBJSponsorLocation.h"
-#import "MBJAwardViewController.h"
 #import "MBJUserInfo.h"
 
 // Errors
@@ -28,6 +27,13 @@ extern NSInteger const kMBJErrorDeletingBean;                   // delete bean r
 extern NSInteger const kMBJErrorRedeemingBean;                  // redeem bean request failed - could be invalid username, password, beanKey
 extern NSInteger const kMBJErrorInvalidSponsorLocationsRequest; // sponsor locations request failed - could be invalid username, password, sponsorKey
 extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register request failed - could be invalid username, password, categories, email, zipcode
+typedef enum {
+	MBJSortBeansDateRewarded = 0,
+    MBJSortBeanExpirationDate = 1,
+    MBJSortBeanProximity = 2,
+    MBJSortBeansSponsor = 3,
+    MBJSortBeanCategory = 4
+} MBJSortBeansType;
 
 @interface MBJRequest : NSObject
 
@@ -130,7 +136,7 @@ extern NSInteger const kMBJErrorInvalidRegisterRequest;         // register requ
  *  @param limit      The number of winners to return
  *  @param block      The block to execute. The block should have the following argument signature:(NSArray *beans, NSError *error).  If beans == nil check error.code and error.localizedDescription
  */
-- (void)beansInBackgroundWithUsername:(NSString *)username password:(NSString *)password limit:(int)limit block:(void(^)(NSArray *beans, NSError *error))block;
+- (void)beansInBackgroundWithUsername:(NSString *)username password:(NSString *)password limit:(int)limit sortBy:(MBJSortBeansType)sortBy block:(void(^)(NSArray *beans, NSError *error))block;
 
 /**
  *  Request an NSArray of MBJCategory objects. An MBJCategory is a type of bean to be awarded within the MyBeanJar service.

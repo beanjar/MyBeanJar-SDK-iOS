@@ -10,6 +10,7 @@
 @property (nonatomic, strong) NSString *beanSponsorKey;
 @property (nonatomic, strong) NSString *beanSponsorName;
 @property (nonatomic, strong) NSString *beanSponsorLogoUrl;
+@property (nonatomic, strong) NSString *beanSponsorUrl;
 @property (nonatomic, strong) NSString *beanShortDescription;
 @property (nonatomic, strong) NSString *beanLongDescription;
 @property (nonatomic, strong) NSDate *beanExpirationDate;
